@@ -6,6 +6,8 @@ package org.haslab.ldb.connection;
  */
 public enum LDBReplyStatus {
 
+    INVALID(-2),
+    UNKNOWN(-1),
     OK(0),
     KEY_ALREADY_EXISTS(1),
     KEY_NOT_FOUND(2);
@@ -19,5 +21,4 @@ public enum LDBReplyStatus {
     public int getStatusCode() {
         return this.code;
     }
-
 }

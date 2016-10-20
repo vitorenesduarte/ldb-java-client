@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import static org.haslab.ldb.connection.LDBReplyStatus.INVALID;
 import org.haslab.ldb.util.JSONManager;
 
 /**
@@ -36,7 +37,13 @@ public class LDBConnection {
         String jsonRequest = JSONManager.toJSON(request);
         this.out.println(jsonRequest);
         String jsonReply = this.in.readLine();
-        return (LDBReply) JSONManager.fromJSON(jsonReply, LDBReply.class);
+        LDBReply reply = (LDBReply) JSONManager.fromJSON(jsonReply, LDBReply.class);
+
+        if (reply.getStatusCode() == INVALID.getStatusCode()) {
+            throw new UnsupportedOperationException();
+        }
+
+        return reply;
     }
 
     public void close() throws IOException {

@@ -7,6 +7,7 @@ import org.haslab.ldb.connection.LDBConnection;
 import org.haslab.ldb.connection.LDBReply;
 import static org.haslab.ldb.connection.LDBReplyStatus.KEY_ALREADY_EXISTS;
 import static org.haslab.ldb.connection.LDBReplyStatus.KEY_NOT_FOUND;
+import static org.haslab.ldb.connection.LDBReplyStatus.UNKNOWN;
 import org.haslab.ldb.connection.LDBRequest;
 import org.haslab.ldb.exceptions.KeyAlreadyExistsException;
 import org.haslab.ldb.exceptions.KeyNotFoundException;
@@ -52,6 +53,10 @@ public class LDB {
 
         if (reply.getStatusCode() == KEY_NOT_FOUND.getStatusCode()) {
             throw new KeyNotFoundException();
+        }
+
+        if (reply.getStatusCode() == UNKNOWN.getStatusCode()) {
+            throw new UnsupportedOperationException();
         }
     }
 

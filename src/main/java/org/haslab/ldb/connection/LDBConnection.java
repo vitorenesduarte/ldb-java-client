@@ -32,13 +32,10 @@ public class LDBConnection {
         this.out = new PrintWriter(socket.getOutputStream(), true);
     }
 
-    public void send(LDBRequest request) {
-        String json = JSONManager.toJSON(request);
-        this.out.println(json);
-    }
-
-    public LDBReply receive() throws IOException {
-        String json = this.in.readLine();
-        return (LDBReply) JSONManager.fromJSON(json, LDBReply.class);
+    public LDBReply request(LDBRequest request) throws IOException {
+        String jsonRequest = JSONManager.toJSON(request);
+        this.out.println(jsonRequest);
+        String jsonReply = this.in.readLine();
+        return (LDBReply) JSONManager.fromJSON(jsonReply, LDBReply.class);
     }
 }

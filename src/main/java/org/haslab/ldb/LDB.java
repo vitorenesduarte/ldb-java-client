@@ -1,13 +1,10 @@
 package org.haslab.ldb;
 
-import org.haslab.ldb.objects.LDBObject;
-import java.io.BufferedReader;
 import java.net.UnknownHostException;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import org.haslab.ldb.connection.LDBConnection;
 import org.haslab.ldb.connection.LDBReply;
+import static org.haslab.ldb.connection.LDBReplyStatus.KEY_ALREADY_EXISTS;
 import org.haslab.ldb.connection.LDBRequest;
 import org.haslab.ldb.exceptions.KeyAlreadyExistsException;
 
@@ -32,12 +29,14 @@ public class LDB {
         request.setMethod("create");
         request.setKey(key);
         request.setType(type.getType());
-        connection.send(request);
+        LDBReply reply = getConnection().request(request);
 
-        LDBReply reply = connection.receive();
-
-        if (reply.getStatus() == 1) {
+        if (reply.getStatusCode() == KEY_ALREADY_EXISTS.getStatusCode()) {
             throw new KeyAlreadyExistsException();
         }
+    }
+
+    protected LDBConnection getConnection() {
+        return this.connection;
     }
 }

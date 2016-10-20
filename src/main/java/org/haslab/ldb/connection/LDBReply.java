@@ -6,16 +6,16 @@ package org.haslab.ldb.connection;
  */
 public class LDBReply {
 
-    private Integer status;
+    private int code;
 
     public LDBReply() {
     }
 
-    public Integer getStatus() {
-        return status;
+    public int getStatusCode() {
+        return code;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setStatusCode(int code) {
+        this.code = code;
     }
 }

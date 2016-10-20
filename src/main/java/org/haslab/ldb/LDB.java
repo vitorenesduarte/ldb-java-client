@@ -29,14 +29,14 @@ public class LDB {
         request.setMethod("create");
         request.setKey(key);
         request.setType(type.getType());
-        LDBReply reply = getConnection().request(request);
+        LDBReply reply = this.connection.request(request);
 
         if (reply.getStatusCode() == KEY_ALREADY_EXISTS.getStatusCode()) {
             throw new KeyAlreadyExistsException();
         }
     }
 
-    protected LDBConnection getConnection() {
-        return this.connection;
+    public void close() throws IOException {
+        this.connection.close();
     }
 }

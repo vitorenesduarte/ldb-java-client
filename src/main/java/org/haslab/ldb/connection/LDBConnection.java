@@ -38,4 +38,9 @@ public class LDBConnection {
         String jsonReply = this.in.readLine();
         return (LDBReply) JSONManager.fromJSON(jsonReply, LDBReply.class);
     }
+
+    public void close() throws IOException {
+        this.in.close();
+        this.out.close();
+    }
 }

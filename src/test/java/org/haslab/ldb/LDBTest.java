@@ -1,7 +1,10 @@
 package org.haslab.ldb;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import org.haslab.ldb.exceptions.KeyAlreadyExistsException;
+import org.haslab.ldb.exceptions.KeyNotFoundException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -47,5 +50,19 @@ public class LDBTest {
     public void testCreateFail() throws IOException, KeyAlreadyExistsException {
         ldb.create("create_fail_a", LDBType.GSet);
         ldb.create("create_fail_a", LDBType.GSet);
+    }
+
+    @Test
+    public void testUpdateOk() throws IOException, KeyAlreadyExistsException, KeyNotFoundException {
+        List<Object> operation = new ArrayList<>();
+        operation.add("add");
+        operation.add("a");
+        ldb.create("update_ok", LDBType.GSet);
+        ldb.update("update_ok", operation);
+    }
+
+    @Test(expected = KeyNotFoundException.class)
+    public void testUpdateFail() throws IOException, KeyNotFoundException {
+        ldb.update("update_fail", null);
     }
 }

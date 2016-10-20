@@ -2,11 +2,14 @@ package org.haslab.ldb;
 
 import java.net.UnknownHostException;
 import java.io.IOException;
+import java.util.List;
 import org.haslab.ldb.connection.LDBConnection;
 import org.haslab.ldb.connection.LDBReply;
 import static org.haslab.ldb.connection.LDBReplyStatus.KEY_ALREADY_EXISTS;
+import static org.haslab.ldb.connection.LDBReplyStatus.KEY_NOT_FOUND;
 import org.haslab.ldb.connection.LDBRequest;
 import org.haslab.ldb.exceptions.KeyAlreadyExistsException;
+import org.haslab.ldb.exceptions.KeyNotFoundException;
 
 /**
  *
@@ -36,7 +39,24 @@ public class LDB {
         }
     }
 
+    public void query() {
+
+    }
+
+    void update(String key, List<Object> operation) throws IOException, KeyNotFoundException {
+        LDBRequest request = new LDBRequest();
+        request.setMethod("update");
+        request.setKey(key);
+        request.setOperation(operation);
+        LDBReply reply = this.connection.request(request);
+
+        if (reply.getStatusCode() == KEY_NOT_FOUND.getStatusCode()) {
+            throw new KeyNotFoundException();
+        }
+    }
+
     public void close() throws IOException {
         this.connection.close();
     }
+
 }

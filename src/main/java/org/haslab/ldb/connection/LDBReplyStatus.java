@@ -7,7 +7,8 @@ package org.haslab.ldb.connection;
 public enum LDBReplyStatus {
 
     OK(0),
-    KEY_ALREADY_EXISTS(1);
+    KEY_ALREADY_EXISTS(1),
+    KEY_NOT_FOUND(2);
 
     private final int code;
 

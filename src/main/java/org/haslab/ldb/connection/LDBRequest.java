@@ -5,6 +5,8 @@
  */
 package org.haslab.ldb.connection;
 
+import java.util.List;
+
 /**
  *
  * @author Vitor Enes (vitorenesduarte ~at~ gmail ~dot~ com)
@@ -14,6 +16,7 @@ public class LDBRequest {
     private String method;
     private String key;
     private String type;
+    private List<Object> operation;
 
     public LDBRequest() {
     }
@@ -40,5 +43,13 @@ public class LDBRequest {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public List<Object> getOperation() {
+        return operation;
+    }
+
+    public void setOperation(List<Object> operation) {
+        this.operation = operation;
     }
 }

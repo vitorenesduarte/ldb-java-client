@@ -1,4 +1,4 @@
-package org.haslab.ldb;
+package org.haslab.ldb.util;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;

@@ -6,7 +6,9 @@ import java.net.UnknownHostException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.Socket;
+import org.haslab.ldb.connection.LDBConnection;
+import org.haslab.ldb.connection.LDBReply;
+import org.haslab.ldb.connection.LDBRequest;
 import org.haslab.ldb.exceptions.KeyAlreadyExistsException;
 
 /**
@@ -15,97 +17,27 @@ import org.haslab.ldb.exceptions.KeyAlreadyExistsException;
  */
 public class LDB {
 
-    private static final String IP = "127.0.0.1";
-    private static final Integer PORT = 6717;
-
-    private final Socket socket;
+    private final LDBConnection connection;
 
     public LDB() throws UnknownHostException, IOException {
-        this.socket = new Socket(IP, PORT);
+        this.connection = new LDBConnection();
     }
 
     public LDB(String ip, Integer port) throws UnknownHostException, IOException {
-        this.socket = new Socket(ip, port);
+        this.connection = new LDBConnection(ip, port);
     }
 
-    public LDBObject create(String key, LDBType type) throws IOException, KeyAlreadyExistsException {
-        LDBMessage message = new LDBMessage();
-        message.setMethod("create");
-        message.setKey(key);
-        message.setType(type.getType());
-        send(message);
-        processCreate();
+    public void create(String key, LDBType type) throws IOException, KeyAlreadyExistsException {
+        LDBRequest request = new LDBRequest();
+        request.setMethod("create");
+        request.setKey(key);
+        request.setType(type.getType());
+        connection.send(request);
 
-        return null;
-    }
+        LDBReply reply = connection.receive();
 
-    private void send(LDBMessage message) throws IOException {
-        String json = JSONManager.toJSON(message);
-        System.out.println(json);
-        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-        out.println(json);
-    }
-
-    private LDBResponse receive() throws IOException {
-        BufferedReader in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
-        String json = in.readLine();
-        return (LDBResponse) JSONManager.fromJSON(json, LDBResponse.class);
-    }
-
-    private void processCreate() throws KeyAlreadyExistsException, IOException {
-        LDBResponse response = receive();
-        if(response.getStatus() == 1) {
+        if (reply.getStatus() == 1) {
             throw new KeyAlreadyExistsException();
-        }
-    }
-
-    private class LDBResponse {
-
-        private Integer status;
-
-        public LDBResponse() {
-        }
-
-        public Integer getStatus() {
-            return status;
-        }
-
-        public void setStatus(Integer status) {
-            this.status = status;
-        }
-    }
-
-    private class LDBMessage {
-
-        private String method;
-        private String key;
-        private String type;
-
-        public LDBMessage() {
-        }
-
-        public String getMethod() {
-            return method;
-        }
-
-        public void setMethod(String method) {
-            this.method = method;
-        }
-
-        public String getKey() {
-            return key;
-        }
-
-        public void setKey(String key) {
-            this.key = key;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
         }
     }
 }

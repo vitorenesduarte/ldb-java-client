@@ -63,6 +63,6 @@ public class LDBTest {
 
     @Test(expected = KeyNotFoundException.class)
     public void testUpdateFail() throws IOException, KeyNotFoundException {
-        ldb.update("update_fail", null);
+        ldb.update("update_fail", new ArrayList<>());
     }
 }

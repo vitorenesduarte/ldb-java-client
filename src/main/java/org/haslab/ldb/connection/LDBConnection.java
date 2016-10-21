@@ -39,7 +39,7 @@ public class LDBConnection {
         String jsonReply = this.in.readLine();
         LDBReply reply = (LDBReply) JSONManager.fromJSON(jsonReply, LDBReply.class);
 
-        if (reply.getStatusCode() == INVALID.getStatusCode()) {
+        if (reply.getCode() == INVALID.getStatusCode()) {
             throw new UnsupportedOperationException();
         }
 

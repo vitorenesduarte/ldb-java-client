@@ -5,7 +5,7 @@
  */
 package org.haslab.ldb.connection;
 
-import java.util.List;
+import org.haslab.ldb.objects.operations.Operation;
 
 /**
  *
@@ -16,7 +16,7 @@ public class LDBRequest {
     private String method;
     private String key;
     private String type;
-    private List<Object> operation;
+    private Operation operation;
 
     public LDBRequest() {
     }
@@ -45,11 +45,11 @@ public class LDBRequest {
         this.type = type;
     }
 
-    public List<Object> getOperation() {
+    public Operation getOperation() {
         return operation;
     }
 
-    public void setOperation(List<Object> operation) {
+    public void setOperation(Operation operation) {
         this.operation = operation;
     }
 }

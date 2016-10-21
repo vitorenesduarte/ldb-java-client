@@ -10,7 +10,7 @@ import static org.haslab.ldb.connection.LDBReplyStatus.UNKNOWN;
 import org.haslab.ldb.connection.LDBRequest;
 import org.haslab.ldb.exceptions.KeyAlreadyExistsException;
 import org.haslab.ldb.exceptions.KeyNotFoundException;
-import org.haslab.ldb.objects.LDBObject;
+import org.haslab.ldb.objects.CRDT;
 import org.haslab.ldb.objects.operations.Operation;
 
 /**
@@ -28,7 +28,7 @@ public class LDB {
         }
     }
 
-    public synchronized static LDBObject create(String key, LDBType type) throws KeyAlreadyExistsException {
+    public synchronized static CRDT create(String key, LDBType type) throws KeyAlreadyExistsException {
         try {
             initConnection();
             LDBRequest request = new LDBRequest();
@@ -49,11 +49,32 @@ public class LDB {
         }
     }
 
-    public void query() {
+    public synchronized static LDBReply query(String key, LDBType type) {
+        LDBReply reply = null;
 
+        try {
+            initConnection();
+            LDBRequest request = new LDBRequest();
+            request.setMethod("query");
+            request.setKey(key);
+            request.setType(type.getType());
+            reply = LDB.connection.request(request);
+
+            if (reply.getCode() == KEY_NOT_FOUND.getStatusCode()) {
+                throw new KeyNotFoundException();
+            }
+        } catch (IOException ex) {
+            LOGGER.severe(ex.getMessage());
+        } catch (KeyNotFoundException ex) {
+            LOGGER.info(ex.getMessage());
+        }
+
+        return reply;
     }
 
     public synchronized static LDBReply update(String key, LDBType type, Operation operation) {
+        LDBReply reply = null;
+
         try {
             initConnection();
             LDBRequest request = new LDBRequest();
@@ -61,7 +82,7 @@ public class LDB {
             request.setKey(key);
             request.setType(type.getType());
             request.setOperation(operation);
-            LDBReply reply = LDB.connection.request(request);
+            reply = LDB.connection.request(request);
 
             if (reply.getCode() == KEY_NOT_FOUND.getStatusCode()) {
                 throw new KeyNotFoundException();
@@ -79,7 +100,7 @@ public class LDB {
             LOGGER.info(ex.getMessage());
         }
 
-        return null;
+        return reply;
     }
 
     public void close() throws IOException {

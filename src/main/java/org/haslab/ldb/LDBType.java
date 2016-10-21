@@ -2,7 +2,7 @@ package org.haslab.ldb;
 
 import org.haslab.ldb.objects.GCounter;
 import org.haslab.ldb.objects.GSet;
-import org.haslab.ldb.objects.LDBObject;
+import org.haslab.ldb.objects.CRDT;
 
 /**
  *
@@ -32,7 +32,7 @@ public enum LDBType {
         return this.type;
     }
 
-    public LDBObject create(String key) {
+    public CRDT create(String key) {
         switch (this) {
             case GCOUNTER:
                 return new GCounter(key);

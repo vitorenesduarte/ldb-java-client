@@ -13,13 +13,19 @@ import org.haslab.ldb.objects.operations.Operation;
  * @author Vitor Enes (vitorenesduarte ~at~ gmail ~dot~ com)
  * @param <T>
  */
-public class GSet<T> extends LDBObject {
+public class GSet<T> extends CRDT {
 
     private HashSet<T> set;
 
     public GSet(String key) {
         super(key);
         this.set = new HashSet<>();
+    }
+
+    public void load() {
+        LDBReply reply = LDB.query(this.getKey(), LDBType.GSET);
+        List<T> list = (List<T>) reply.getObject();
+        this.set = new HashSet<>(list);
     }
 
     public void add(T t) {

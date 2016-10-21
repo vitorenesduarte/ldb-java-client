@@ -4,11 +4,11 @@ package org.haslab.ldb.objects;
  *
  * @author Vitor Enes (vitorenesduarte ~at~ gmail ~dot~ com)
  */
-public abstract class LDBObject {
+public abstract class CRDT {
 
     private final String key;
 
-    public LDBObject(String key) {
+    public CRDT(String key) {
         this.key = key;
     }
 

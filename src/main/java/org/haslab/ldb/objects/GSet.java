@@ -38,4 +38,8 @@ public class GSet<T> extends CRDT {
     public boolean contains(T t) {
         return set.contains(t);
     }
+
+    public T[] toArray(){
+        return (T[]) set.toArray();
+    }
 }

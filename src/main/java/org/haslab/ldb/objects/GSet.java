@@ -1,5 +1,7 @@
 package org.haslab.ldb.objects;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import org.haslab.ldb.LDB;
@@ -39,7 +41,7 @@ public class GSet<T> extends CRDT {
         return set.contains(t);
     }
 
-    public T[] toArray(){
-        return (T[]) set.toArray();
+    public boolean containsAll(Collection<?> c) {
+        return set.containsAll(c);
     }
 }

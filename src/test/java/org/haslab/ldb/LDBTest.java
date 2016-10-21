@@ -1,10 +1,11 @@
 package org.haslab.ldb;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import org.haslab.ldb.exceptions.KeyAlreadyExistsException;
 import org.haslab.ldb.exceptions.KeyNotFoundException;
 import org.haslab.ldb.objects.GSet;
-import org.junit.Assert;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -37,13 +38,17 @@ public class LDBTest {
     }
 
     @Test
-    public void testQuery() throws KeyAlreadyExistsException{
+    public void testQuery() throws KeyAlreadyExistsException {
         GSet gset = (GSet) LDB.create("query", LDBType.GSET);
         gset.add("a");
         gset.add("b");
         gset.add("a");
         gset.add("c");
         gset.load();
-        assertArrayEquals(gset.toArray(), new String[]{"a", "b", "c"});
+        List<String> expected = new ArrayList<>();
+        expected.add("a");
+        expected.add("b");
+        expected.add("c");
+        assertTrue(gset.containsAll(expected));
     }
 }

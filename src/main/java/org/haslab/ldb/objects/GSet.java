@@ -1,9 +1,9 @@
 package org.haslab.ldb.objects;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.haslab.ldb.LDB;
 import org.haslab.ldb.LDBType;
 import org.haslab.ldb.connection.LDBReply;
@@ -24,24 +24,20 @@ public class GSet<T> extends CRDT {
         this.set = new HashSet<>();
     }
 
-    public void load() {
+    public Set<T> value() {
         LDBReply reply = LDB.query(this.getKey(), LDBType.GSET);
-        List<T> list = (List<T>) reply.getObject();
-        this.set = new HashSet<>(list);
+        load(reply);
+        return this.set;
     }
 
     public void add(T t) {
         Operation op = new GSetOperation(t);
         LDBReply reply = LDB.update(this.getKey(), LDBType.GSET, op);
+        load(reply);
+    }
+
+    private void load(LDBReply reply) {
         List<T> list = (List<T>) reply.getObject();
         this.set = new HashSet<>(list);
-    }
-
-    public boolean contains(T t) {
-        return set.contains(t);
-    }
-
-    public boolean containsAll(Collection<?> c) {
-        return set.containsAll(c);
     }
 }

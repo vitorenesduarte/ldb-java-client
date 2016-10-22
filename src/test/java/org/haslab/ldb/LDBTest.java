@@ -18,21 +18,15 @@ public class LDBTest {
     public LDBTest() {
     }
 
-    @Test
-    public void testCreateOk() throws KeyAlreadyExistsException {
-        LDB.create("create_ok_a", LDBType.GSET);
-        LDB.create("create_ok_b", LDBType.GSET);
-    }
-
     @Test(expected = KeyAlreadyExistsException.class)
-    public void testCreateFail() throws KeyAlreadyExistsException {
-        LDB.create("create_fail_a", LDBType.GSET);
-        LDB.create("create_fail_a", LDBType.GSET);
+    public void testCreate() throws KeyAlreadyExistsException {
+        LDB.create("create", LDBType.GSET);
+        LDB.create("create", LDBType.GSET);
     }
 
     @Test
     public void testUpdate() throws IOException, KeyAlreadyExistsException, KeyNotFoundException {
-        GSet gset = (GSet) LDB.create("update_ok", LDBType.GSET);
+        GSet gset = (GSet) LDB.create("update", LDBType.GSET);
         gset.add("a");
         assertTrue(gset.contains("a"));
     }

@@ -32,8 +32,8 @@ public class MVMap<V> extends CRDT {
 
     public void set(String key, V v) {
         Operation op = new MVMapOperation(key, v);
-        MVMapReply reply = (MVMapReply) LDB.update(this.getKey(), LDBType.MVMAP, op);
-        load(reply);
+        LDB.update(this.getKey(), LDBType.MVMAP, op);
+        this.value.put(key, v);
     }
 
     private void load(MVMapReply reply) {

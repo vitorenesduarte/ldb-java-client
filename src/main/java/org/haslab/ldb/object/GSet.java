@@ -32,8 +32,8 @@ public class GSet<T> extends CRDT {
 
     public void add(T t) {
         Operation op = new GSetOperation(t);
-        GSetReply reply = (GSetReply) LDB.update(this.getKey(), LDBType.GSET, op);
-        load(reply);
+        LDB.update(this.getKey(), LDBType.GSET, op);
+        this.value.add(t);
     }
 
     private void load(GSetReply reply) {

@@ -29,8 +29,8 @@ public class GCounter extends CRDT {
 
     public void increment() {
         Operation op = new GCounterOperation();
-        GCounterReply reply = (GCounterReply) LDB.update(this.getKey(), LDBType.GCOUNTER, op);
-        load(reply);
+        LDB.update(this.getKey(), LDBType.GCOUNTER, op);
+        this.value += 1;
     }
 
     private void load(GCounterReply reply) {

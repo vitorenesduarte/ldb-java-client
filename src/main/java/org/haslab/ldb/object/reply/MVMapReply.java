@@ -21,6 +21,10 @@ public class MVMapReply<V> extends LDBReply {
         HashMap<String, V> result = new HashMap<>();
 
         for (Entry<V> e : value) {
+            // Client-side conflict resolution:
+            // pick the lesser value
+            // E.g. for strings, it will pick the
+            // lesser value in the lexicographic order
             TreeSet<V> values = new TreeSet<>(e.getValues());
             result.put(e.getKey(), values.first());
         }

@@ -1,6 +1,5 @@
 package org.haslab.ldb.objects;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +21,8 @@ public class GSet<T> extends CRDT {
     public GSet(String key) {
         super(key);
         this.set = new HashSet<>();
+
+        LDB.create(key, LDBType.GSET);
     }
 
     public Set<T> value() {

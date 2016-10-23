@@ -16,6 +16,9 @@ public class GCounter extends CRDT {
 
     public GCounter(String key) {
         super(key);
+        this.counter = 0;
+
+        LDB.create(key, LDBType.GCOUNTER);
     }
 
     public int value() {

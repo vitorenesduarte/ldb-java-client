@@ -1,10 +1,9 @@
 package org.haslab.ldb.objects;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import org.haslab.ldb.LDB;
-import org.haslab.ldb.LDBType;
-import org.haslab.ldb.exceptions.KeyAlreadyExistsException;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -18,21 +17,21 @@ public class GSetTest {
     }
 
     @Test
-    public void testGSet() throws KeyAlreadyExistsException {
-        GSet gset = (GSet) LDB.create("gset", LDBType.GSET);
-        gset.add("a");
-        gset.add("b");
-        gset.add("a");
-        gset.add("c");
+    public void singleThreadedTest() throws IOException {
+        try (LDB ldb = new LDB()) {
+            GSet gset = new GSet("gset");
+            gset.add("a");
+            gset.add("b");
+            gset.add("a");
+            gset.add("c");
 
-        Set<String> expected = new HashSet<>();
-        expected.add("a");
-        expected.add("b");
-        expected.add("c");
-
-        Set<String> value = gset.value();
-        // assert equals
-        assertTrue(value.containsAll(expected) && expected.containsAll(value));
+            Set<String> expected = new HashSet<>();
+            expected.add("a");
+            expected.add("b");
+            expected.add("c");
+            Set<String> value = gset.value();
+            // assert equals
+            assertTrue(value.containsAll(expected) && expected.containsAll(value));
+        }
     }
-
 }

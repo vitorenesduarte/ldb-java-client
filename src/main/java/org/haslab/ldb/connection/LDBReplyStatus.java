@@ -9,8 +9,7 @@ public enum LDBReplyStatus {
     UNKNOWN(-2),
     INVALID(-1),
     OK(0),
-    KEY_ALREADY_EXISTS(1),
-    KEY_NOT_FOUND(2);
+    KEY_NOT_FOUND(1);
 
     private final int code;
 

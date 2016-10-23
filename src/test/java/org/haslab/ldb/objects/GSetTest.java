@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.haslab.ldb.LDB;
+import org.haslab.ldb.object.GSet;
 import org.haslab.ldb.util.Runner;
 import static org.junit.Assert.*;
 import org.junit.Test;

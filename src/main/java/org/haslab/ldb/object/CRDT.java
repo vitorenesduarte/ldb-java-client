@@ -1,4 +1,4 @@
-package org.haslab.ldb.objects;
+package org.haslab.ldb.object;
 
 /**
  *

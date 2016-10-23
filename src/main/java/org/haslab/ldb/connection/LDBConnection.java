@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.haslab.ldb.LDBType;
 import static org.haslab.ldb.connection.LDBReplyStatus.INVALID;
 import org.haslab.ldb.util.JSONManager;
 
@@ -35,11 +37,11 @@ public class LDBConnection {
         this.out = new PrintWriter(socket.getOutputStream(), true);
     }
 
-    public LDBReply request(LDBRequest request) throws IOException {
+    public LDBReply request(LDBRequest request, LDBType type) throws IOException {
         String jsonRequest = JSONManager.toJSON(request);
         this.out.println(jsonRequest);
         String jsonReply = this.in.readLine();
-        LDBReply reply = (LDBReply) JSONManager.fromJSON(jsonReply, LDBReply.class);
+        LDBReply reply = (LDBReply) JSONManager.fromJSON(jsonReply, type.replyClass());
 
         if (reply.getCode() == INVALID.getStatusCode()) {
             throw new UnsupportedOperationException();

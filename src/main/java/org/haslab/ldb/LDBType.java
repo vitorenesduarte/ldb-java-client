@@ -1,5 +1,9 @@
 package org.haslab.ldb;
 
+import org.haslab.ldb.object.reply.GCounterReply;
+import org.haslab.ldb.object.reply.GSetReply;
+import org.haslab.ldb.object.reply.MVMapReply;
+
 /**
  *
  * @author Vitor Enes (vitorenesduarte ~at~ gmail ~dot~ com)
@@ -7,7 +11,8 @@ package org.haslab.ldb;
 public enum LDBType {
 
     GCOUNTER("gcounter"),
-    GSET("gset");
+    GSET("gset"),
+    MVMAP("mvmap");
 
     private final String type;
 
@@ -17,5 +22,18 @@ public enum LDBType {
 
     public String getType() {
         return this.type;
+    }
+    
+    public Class<?> replyClass(){
+        switch(this){
+            case GCOUNTER:
+                return GCounterReply.class;
+            case GSET:
+                return GSetReply.class;
+            case MVMAP:
+                return MVMapReply.class;
+            default:
+                throw new UnsupportedOperationException();
+        }
     }
 }

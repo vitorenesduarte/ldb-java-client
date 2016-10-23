@@ -10,9 +10,9 @@ import org.haslab.ldb.connection.LDBReply;
 import static org.haslab.ldb.connection.LDBReplyStatus.KEY_NOT_FOUND;
 import static org.haslab.ldb.connection.LDBReplyStatus.UNKNOWN;
 import org.haslab.ldb.connection.LDBRequest;
-import org.haslab.ldb.exceptions.KeyNotFoundException;
-import org.haslab.ldb.exceptions.LDBException;
-import org.haslab.ldb.objects.operations.Operation;
+import org.haslab.ldb.exception.KeyNotFoundException;
+import org.haslab.ldb.exception.LDBException;
+import org.haslab.ldb.object.operation.Operation;
 
 /**
  *
@@ -52,7 +52,7 @@ public class LDB implements Closeable {
             request.setMethod("create");
             request.setKey(key);
             request.setType(type.getType());
-            getConnection().request(request);
+            getConnection().request(request, type);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
@@ -66,7 +66,7 @@ public class LDB implements Closeable {
             request.setMethod("query");
             request.setKey(key);
             request.setType(type.getType());
-            reply = getConnection().request(request);
+            reply = getConnection().request(request, type);
 
             if (reply.getCode() == KEY_NOT_FOUND.getStatusCode()) {
                 throw new KeyNotFoundException();
@@ -89,7 +89,7 @@ public class LDB implements Closeable {
             request.setKey(key);
             request.setType(type.getType());
             request.setOperation(operation);
-            reply = getConnection().request(request);
+            reply = getConnection().request(request, type);
 
             if (reply.getCode() == KEY_NOT_FOUND.getStatusCode()) {
                 throw new KeyNotFoundException();

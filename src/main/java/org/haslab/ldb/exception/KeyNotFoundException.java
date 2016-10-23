@@ -1,4 +1,4 @@
-package org.haslab.ldb.exceptions;
+package org.haslab.ldb.exception;
 
 /**
  *

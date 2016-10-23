@@ -1,6 +1,6 @@
 package org.haslab.ldb.connection;
 
-import org.haslab.ldb.objects.operations.Operation;
+import org.haslab.ldb.object.operation.Operation;
 
 /**
  *

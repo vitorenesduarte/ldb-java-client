@@ -7,7 +7,6 @@ package org.haslab.ldb.connection;
 public class LDBReply {
 
     private int code;
-    private Object object;
 
     public LDBReply() {
     }
@@ -18,13 +17,5 @@ public class LDBReply {
 
     public void setStatusCode(int code) {
         this.code = code;
-    }
-
-    public Object getObject() {
-        return object;
-    }
-
-    public void setObject(Object object) {
-        this.object = object;
     }
 }

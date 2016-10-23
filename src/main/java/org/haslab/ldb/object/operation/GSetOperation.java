@@ -1,4 +1,4 @@
-package org.haslab.ldb.objects.operations;
+package org.haslab.ldb.object.operation;
 
 /**
  *

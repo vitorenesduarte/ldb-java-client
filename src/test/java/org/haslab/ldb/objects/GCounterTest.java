@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.haslab.ldb.LDB;
+import org.haslab.ldb.object.GCounter;
 import org.haslab.ldb.util.Runner;
 import static org.junit.Assert.*;
 import org.junit.Test;
